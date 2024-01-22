@@ -11,7 +11,7 @@ context = zmq.Context()
 socket = context.socket(zmq.REP)
 
 # Pick 40000 + last three digits of your 900 ID
-serverPort = 40000
+serverPort = 40226
 
 try: 
     print('Starting up server on port ' + str(serverPort))

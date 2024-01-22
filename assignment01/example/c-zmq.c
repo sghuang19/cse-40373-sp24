@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define ZMQ_SERVER_PORT 40000
+#define ZMQ_SERVER_PORT 40226
 
 int main (void)
 {
