@@ -1,9 +1,9 @@
 #CPPFLAG=-I/opt/homebrew/include
 
-all: czmq
+all: client
 
-czmq : c-zmq.c
+client : client.c
 # For a Mac with a localized install via homebrew
 #	gcc -I/opt/homebrew/include -L/opt/homebrew/lib c-zmq.c -l zmq -o czmq
 # Otherwise use
-	gcc c-zmq.c -l zmq -o czmq
+	gcc client.c -l zmq -o client
