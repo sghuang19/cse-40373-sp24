@@ -117,3 +117,27 @@ class Controller:
                     pass
 
 
+if __name__ == '__main__':
+    t_ns = TrafficLightPair(
+        'NS',
+        CrosswalkPair('NS', [(0, 1), (0, 6), (7, 1), (7, 6)]),
+        [(0, 2, 1, 5), (6, 2, 7, 5)]
+    )
+    t_ew = TrafficLightPair(
+        'EW',
+        CrosswalkPair('EW', [(1, 0), (6, 0), (1, 7), (6, 7)]),
+        [(2, 0, 5, 1), (2, 6, 5, 7)]
+    )
+    controller = Controller([t_ns, t_ew])
+
+    # FIXME: The trinket SenseHAT emulator does not support threading,
+    # hence button press cannot be simulated.
+    # simulation = threading.Thread(target=controller.simulate)
+    # simulation.start()
+    controller.simulate()
+
+    # Press the crosswalk buttons after a while
+    time.sleep(10)
+    t_ns.crosswalk.press()
+    time.sleep(10)
+    t_ew.crosswalk.press()
