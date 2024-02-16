@@ -1,4 +1,9 @@
+# FIXME: Threading not supported in emulator
+# import threading
 import time
+# from sense_emu import SenseHat
+# from sense_hat import SenseHat
+
 TRAFFIC_SEQUENCE = [
     ('Arrow', 10),
     ('Green', 30),
@@ -18,6 +23,30 @@ COLORS = {
     'Yellow': (255, 255, 0),
     'Red': (255, 0, 0),
 }
+
+
+class Display:
+    def __init__(self):
+        self.pattern = [[(0, 0, 0), ] * 8, ] * 8
+        self.s = SenseHat()
+        self.s.low_light = True
+
+    def update_region(self, regions, color):
+        for x1, y1, x2, y2 in regions:
+            for i in range(x1, x2 + 1):
+                for j in range(y1, y2 + 1):
+                    self.pattern[i][j] = color
+        self.refresh()
+
+    def update_pixel(self, x, y, color):
+        self.pattern[x][y] = color
+        self.refresh()
+
+    def refresh(self):
+        self.s.set_pixels([p for row in self.pattern for p in row])
+
+
+display = Display()
 
 
 class TrafficLightPair:
@@ -40,6 +69,10 @@ class TrafficLightPair:
             self.light()
             time.sleep(duration)
 
+    def light(self):
+        display.update_region(self.regions, COLORS[self.state])
+
+
 class CrosswalkPair:
     def __init__(self, direction, regions):
         """
@@ -61,6 +94,11 @@ class CrosswalkPair:
     def press(self):
         print(self.direction, "Crosswalk button pressed")
         self.pressed = True
+
+    def light(self):
+        for x, y in self.regions:
+            display.update_pixel(x, y, COLORS[self.state])
+
 
 class Controller:
     def __init__(self, traffic_lights):
