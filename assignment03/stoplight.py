@@ -62,3 +62,20 @@ class CrosswalkPair:
         print(self.direction, "Crosswalk button pressed")
         self.pressed = True
 
+class Controller:
+    def __init__(self, traffic_lights):
+        self.traffic_lights = traffic_lights
+
+    def simulate(self):
+        while True:
+            for light in self.traffic_lights:
+                while light.crosswalk.pressed:
+                    time.sleep(5)  # Wait for the crosswalk to finish cycling
+                light.cycle()
+                if light.crosswalk.pressed:
+                    # Current light is red, start cycling the crosswalk
+                    # FIXME: Threading is not supported in the emulator
+                    # threading.Thread(target=light.crosswalk.cycle).start()
+                    pass
+
+
