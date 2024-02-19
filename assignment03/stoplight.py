@@ -1,8 +1,6 @@
-# FIXME: Threading not supported in emulator
-# import threading
+import threading
 import time
-# from sense_emu import SenseHat
-# from sense_hat import SenseHat
+from sense_hat import SenseHat
 
 TRAFFIC_SEQUENCE = [
     ('Arrow', 10),
@@ -112,8 +110,7 @@ class Controller:
                 light.cycle()
                 if light.crosswalk.pressed:
                     # Current light is red, start cycling the crosswalk
-                    # FIXME: Threading is not supported in the emulator
-                    # threading.Thread(target=light.crosswalk.cycle).start()
+                    threading.Thread(target=light.crosswalk.cycle).start()
                     pass
 
 
@@ -130,10 +127,8 @@ if __name__ == '__main__':
     )
     controller = Controller([t_ns, t_ew])
 
-    # FIXME: The trinket SenseHAT emulator does not support threading,
-    # hence button press cannot be simulated.
-    # simulation = threading.Thread(target=controller.simulate)
-    # simulation.start()
+    simulation = threading.Thread(target=controller.simulate)
+    simulation.start()
     controller.simulate()
 
     # Press the crosswalk buttons after a while
@@ -141,3 +136,4 @@ if __name__ == '__main__':
     t_ns.crosswalk.press()
     time.sleep(10)
     t_ew.crosswalk.press()
+
