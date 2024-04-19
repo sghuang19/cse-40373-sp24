@@ -1,33 +1,15 @@
-from sense_hat import SenseHat
-from ULN2003 import ULN2003
+from ULN2003Pi.ULN2003 import ULN2003
+import RPi.GPIO as GPIO
 import time
 
+pins = 26, 19, 13, 6
+button = 17
+GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+Stepper = ULN2003(pins)
 
-def drive(steps: int = 1):
-    # TODO: drive the motor throught GPIO
-    pass
-
-
-def control():
-    # TODO: control of the motor
-    while True:
-        for event in sense.stick.get_events():
-            print("The joystick was {} {}".format(event.action, event.direction))
-            # TODO: drive the motor based on joystick action
-            drive()
-    pass
-
-
-if __name__ == "__main__":
-    sense = SenseHat()
-    sense.show_message("SenseHat started!")
-
-    pins = 26, 19, 13, 6
-    Stepper = ULN2003(pins)
-    while True:
+while True:
+    print(GPIO.input(button))
+    if GPIO.input(button):
         Stepper.step(n=100)
-        sleep(1)
-
-
-    # control()
+        time.sleep(0.2)
 
