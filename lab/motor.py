@@ -1,4 +1,6 @@
 from sense_hat import SenseHat
+from ULN2003 import ULN2003
+import time
 
 
 def drive(steps: int = 1):
@@ -19,5 +21,13 @@ def control():
 if __name__ == "__main__":
     sense = SenseHat()
     sense.show_message("SenseHat started!")
-    control()
+
+    pins = 26, 19, 13, 6
+    Stepper = ULN2003(pins)
+    while True:
+        Stepper.step(n=100)
+        sleep(1)
+
+
+    # control()
 
